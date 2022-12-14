@@ -1,5 +1,5 @@
 DATA_DIRECTORY = .
-DRUG = Paclitaxel
+DRUG = PaclitaxelAndPembrolizumab
 SCALED_DATASET = $(DRUG)_scaled_dataset.tsv
 
 # Create scaled dataset.
@@ -15,5 +15,5 @@ ludwig-experiment: $(DRUG)_final_config.yaml $(SCALED_DATASET)
 	mkdir -p $(DRUG) && pushd $(DRUG) && ludwig experiment --dataset ../$(SCALED_DATASET) --config_file ../$(DRUG)_final_config.yaml -rs 456
 
 clean:
-	rm $(DRUG)*.yaml $(DRUG)_scaled_dataset.*
+	rm *final_config.yaml *_scaled_dataset.*
 
