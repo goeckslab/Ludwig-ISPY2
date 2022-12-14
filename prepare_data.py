@@ -42,8 +42,9 @@ if __name__ == "__main__":
     y_df.fillna(-1, inplace=True)
     y_df.index.name = "Patient"
     
-    # Filter to get patient response data for the given drug.
+    # Filter to get patient response data for the given drug and rename column.
     y_df = y_df[y_df[drug] >= 0][drug]
+    y_df.rename("TxResponse", inplace=True)
     
     #
     # Merge X and Y matrices, scale data, and write result to file.
@@ -53,4 +54,4 @@ if __name__ == "__main__":
     # Set min-max range to [0,1] in X matrix columns and write out combined matrix.
     scaler = MinMaxScaler()
     joined_df[x_df.columns] = scaler.fit_transform(joined_df[x_df.columns])
-    joined_df.to_csv(output_matrix_file, sep="\t", index=True)
+    joined_df.to_csv(output_matrix_file, sep="\t", index=False)

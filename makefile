@@ -15,5 +15,5 @@ ludwig-experiment: $(DRUG)_final_config.yaml $(SCALED_DATASET)
 	mkdir -p $(DRUG) && pushd $(DRUG) && ludwig experiment --dataset ../$(SCALED_DATASET) --config_file ../$(DRUG)_final_config.yaml -rs 456
 
 clean:
-	rm $(DRUG)_final_config.yaml $(DRUG)_scaled_dataset.tsv
+	rm $(DRUG)*.yaml $(DRUG)_scaled_dataset.*
 
