@@ -1,5 +1,5 @@
 '''
-Create input features YAML for Ludwig configuration.
+Create input features YAML for Ludwig configuration and appends base config.
 '''
 
 import yaml
@@ -12,6 +12,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("input_file", help="Input file")
     parser.add_argument("output_file", help="Output file")
+    parser.add_argument("base_config")
     args = parser.parse_args()
 
     # Read features from input.
@@ -19,8 +20,15 @@ if __name__ == "__main__":
 
     # Define inputs.
     inputs = [{"name": c, "type": "numerical"} for c in feature_names[:-1]]
+    # Get outputs from base config
+    base_config = yaml.safe_load(open(args.base_config))
+    outputs = base_config['output_features']
+    training = base_config['training']
+
     config = {
-        "input_features": inputs
+        "input_features": inputs,
+        "output_features": outputs,
+        "training": training
     }
     
     # Write config.
