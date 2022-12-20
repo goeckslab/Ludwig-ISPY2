@@ -1,6 +1,7 @@
-DATA_DIRECTORY = .
-DRUG = PaclitaxelAndPembrolizumab
+DATA_DIRECTORY = ..\ISPY-Data #You have to change this to the directory where you have stored the data
+DRUG = Paclitaxel
 SCALED_DATASET = $(DRUG)_scaled_dataset.tsv
+BASE_CONFIG = base_config.yaml
 
 # Create scaled dataset.
 $(SCALED_DATASET):
@@ -8,12 +9,13 @@ $(SCALED_DATASET):
 
 # Create final configuration file.
 $(DRUG)_final_config.yaml: create_input_features.py base_config.yaml $(SCALED_DATASET)
-	python create_input_features.py "$(SCALED_DATASET)" $(DRUG)_input_features.yaml; cat $(DRUG)_input_features.yaml base_config.yaml > $(DRUG)_final_config.yaml
+	python create_input_features.py "$(SCALED_DATASET)" $(DRUG)_final_config.yaml $(BASE_CONFIG)
 
 # Run a ludwig experiment using the scaled dataset. Results are placed into the $(DRUG) directory.
 ludwig-experiment: $(DRUG)_final_config.yaml $(SCALED_DATASET)
-	mkdir -p $(DRUG) && pushd $(DRUG) && ludwig experiment --dataset ../$(SCALED_DATASET) --config ../$(DRUG)_final_config.yaml -rs 456
+	mkdir -p $(DRUG) && pushd $(DRUG) && ludwig experiment --dataset ../$(SCALED_DATASET) -c ../$(DRUG)_final_config.yaml -rs 456
 
 clean:
 	rm *final_config.yaml *_scaled_dataset.*
+
 
