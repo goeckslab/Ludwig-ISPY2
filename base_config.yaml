@@ -1,5 +1,6 @@
+model_type: gbm
 output_features:
-  - name: TxResponse
+  - name: PCR
     type: category
 training:
   early_stop: 10

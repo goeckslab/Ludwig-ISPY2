@@ -30,28 +30,25 @@ if __name__ == "__main__":
     # Rename patient ID column in X matrix and select for 7k genes.
     x_df.index.name = "Patient"
 
-    # TODO: (1) Make this a parameter and (2) note that this only works if using mad_X_df.txt, not X df.
+    # TODO: (1) Make this a parameter and (2) note that this only works if using a matrix sorted by STD/MAD.
     N = 7000
     x_df = x_df.iloc[:, 0:N]
+    # Set min-max range to [0,1] in X matrix columns and write out combined matrix.
+    scaler = MinMaxScaler()
+    x_df[x_df.columns] = scaler.fit_transform(x_df)
+    x_df
 
     # 
     # Process Y matrix.
     # 
 
-    # Fill in empty values with -1, rename patient ID column, and sort by patient ID.
-    y_df.fillna(-1, inplace=True)
-    y_df.index.name = "Patient"
-    
-    # Filter to get patient response data for the given drug and rename column.
-    y_df = y_df[y_df[drug] >= 0][drug]
-    y_df.rename("TxResponse", inplace=True)
+    y_df = y_df[y_df['Arm'] == drug]
     
     #
-    # Merge X and Y matrices, scale data, and write result to file.
+    # Join X and Y matrices and write result to file.
     #
+    x_df.index = x_df.index.astype('str')
+    y_df.index = y_df.index.astype('str')
     joined_df = x_df.join(y_df, how="inner")
-
-    # Set min-max range to [0,1] in X matrix columns and write out combined matrix.
-    scaler = MinMaxScaler()
-    joined_df[x_df.columns] = scaler.fit_transform(joined_df[x_df.columns])
+    joined_df = joined_df.drop('Arm', axis=1)
     joined_df.to_csv(output_matrix_file, sep="\t", index=False)

@@ -22,12 +22,14 @@ if __name__ == "__main__":
     inputs = [{"name": c, "type": "numerical"} for c in feature_names[:-1]]
     # Get outputs from base config
     base_config = yaml.safe_load(open(args.base_config))
+    model_type = base_config['model_type']
     outputs = base_config['output_features']
     training = base_config['training']
 
     config = {
         "input_features": inputs,
         "output_features": outputs,
+        "model_type": model_type,
         "training": training
     }
     
