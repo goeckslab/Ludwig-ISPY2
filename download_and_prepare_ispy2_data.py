@@ -2,6 +2,15 @@ import GEOparse
 import pandas as pd
 
 #
+#
+# Download and prepare the ISPY2 phenotypic and gene expression datasets. Script will create two files in the current directory
+# - ispy2_phenotype.tsv : this is a TSV with three columns: ISPY ID, PCR or no, trial arm
+# - ispy2_expression_std_sorted.tsv : this is a TSV where rows are patients and columns are genes. 
+# Rows are sorted by patient ID and columns are sorted by standard deviation.
+#
+#
+
+#
 # Prepare the phenotype data: output is a dataframe with three columns: ISPY ID, PCR or no, trial arm.
 # 
 
