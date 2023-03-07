@@ -19,7 +19,7 @@ $(DRUG)_final_config.yaml: create_input_features.py base_config.yaml $(SCALED_DA
 
 # Run a ludwig experiment using the scaled dataset. Results are placed into the $(DRUG) directory.
 ludwig-experiment: $(DRUG)_final_config.yaml $(SCALED_DATASET)
-	mkdir -p $(DRUG) && pushd $(DRUG) && /usr/bin/time ludwig experiment --dataset ../$(SCALED_DATASET) -c ../$(DRUG)_final_config.yaml -rs 456 -kf 3
+	mkdir -p $(DRUG) && pushd $(DRUG) && /usr/bin/time ludwig experiment --dataset ../$(SCALED_DATASET) -c ../$(DRUG)_final_config.yaml -rs 456
 
 clean:
 	rm *final_config.yaml *_scaled_dataset.*
